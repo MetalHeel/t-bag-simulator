@@ -5,6 +5,8 @@ public class SpectatorView : MonoBehaviour
 {
 	private const float moveSpeed = 0.1f;
 
+	private Vector3 startMousePos = Vector3.zero;
+
 	void Update()
 	{
 		Vector3 pos = transform.position;
@@ -27,6 +29,16 @@ public class SpectatorView : MonoBehaviour
 		if (Input.GetKey(KeyCode.LeftControl))
 			pos.y -= moveSpeed;
 
+		if(Input.GetMouseButton(0))
+		{
+
+		}
+
 		transform.position = pos;
+	}
+
+	void OnMouseDown()
+	{
+
 	}
 }
