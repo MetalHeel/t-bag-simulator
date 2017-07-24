@@ -4,7 +4,11 @@
 class Propellor : MonoBehaviour
 {
 	private Rigidbody rb;
-	public float thrust = 0;
+
+	public float baseThrust;
+	public float thrust;
+
+	bool hover = false;
 
 	void Start()
 	{
@@ -13,6 +17,11 @@ class Propellor : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		rb.AddForce(transform.up * thrust);
+		rb.AddForce(transform.up * baseThrust);
+
+		hover = Input.GetMouseButton(0);
+
+		if (hover)
+			rb.AddForce(transform.up * thrust);
 	}
 }
