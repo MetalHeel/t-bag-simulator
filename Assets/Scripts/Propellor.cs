@@ -5,10 +5,14 @@ class Propellor : MonoBehaviour
 {
 	private Rigidbody rb;
 
-	public float baseThrust;
-	public float thrust;
+	public float baseThrust = 0;
+	public float thrust = 0;
 
-	bool hover = false;
+	private bool hovering = false;
+    private bool moving = false;
+
+    private float steady = 0.5f;
+    private float tilt = 5.0f;
 
 	void Start()
 	{
@@ -17,11 +21,24 @@ class Propellor : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		rb.AddForce(transform.up * baseThrust);
+		rb.AddRelativeForce(transform.up * baseThrust);
 
-		hover = Input.GetMouseButton(0);
+		hovering = Input.GetMouseButton(0);
+        moving = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D);
 
-		if (hover)
-			rb.AddForce(transform.up * thrust);
-	}
+        if (hovering)
+			rb.AddRelativeForce(transform.up * thrust);
+
+        if (Input.GetKey(KeyCode.W))
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.AngleAxis(tilt, Vector3.right), Time.time * steady);
+        if (Input.GetKey(KeyCode.S))
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.AngleAxis(-tilt, Vector3.right), Time.time * steady);
+        if (Input.GetKey(KeyCode.A))
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.AngleAxis(tilt, Vector3.forward), Time.time * steady);
+        if (Input.GetKey(KeyCode.D))
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.AngleAxis(-tilt, Vector3.forward), Time.time * steady);
+
+        if (!moving)
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, Time.time * steady);
+    }
 }

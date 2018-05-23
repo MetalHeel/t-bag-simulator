@@ -3,7 +3,7 @@
 
 class PlayerCamera : MonoBehaviour
 {
-	public GameObject Player;
+	public GameObject Player = null;
 
 	private Vector3 offset;
 
